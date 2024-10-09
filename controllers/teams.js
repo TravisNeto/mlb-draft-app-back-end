@@ -1,9 +1,9 @@
-const Team = require('../models/Team');
-const User = require('../models/User');
+const Team = require('../models/team.js');
+const User = require('../models/user.js');
 
 const createTeam = async (req, res) => {
   const { name } = req.body;
-  const ownerId = req.user.id;
+  const ownerId = req.user._id;
 
   try {
     const newTeam = new Team({ name, owner: ownerId });
@@ -35,7 +35,7 @@ const addPlayerToTeam = async (req, res) => {
     const team = await Team.findOne({ owner: req.user.id });
     if (!team) return res.status(404).json({ message: 'Team not found' });
 
-    // Add player to the team
+    // Add a player to the team
     team.players.push(playerId);
     await team.save();
 

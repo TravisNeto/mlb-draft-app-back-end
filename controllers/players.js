@@ -1,4 +1,12 @@
-const Player = require('../models/Player');
+const Player = require('../models/player.js');
+
+const fetchmlbApi = async (req, res) => {
+    const response = await fetch(
+      process.env.MLB_API
+    );
+    const data = await response.json();
+    res.status(200).json(data.people)
+  }
 
 const createPlayer = async (req, res) => {
   const { name, position, stats } = req.body;
@@ -63,4 +71,4 @@ const deletePlayer = async (req, res) => {
 };
 
 
-module.exports = { createPlayer, getAllPlayers, getPlayer, updatePlayer, deletePlayer }
+module.exports = { createPlayer, getAllPlayers, getPlayer, updatePlayer, deletePlayer, fetchmlbApi }

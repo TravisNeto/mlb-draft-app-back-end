@@ -14,9 +14,9 @@ mongoose.connection.on('connected', () => {
 app.use(express.json());
 app.use(cors());
 
-const playerRouter = require('./controllers/players');
-const usersRouter = require('./controllers/users');
-const teamRouter = require('./controllers/teams');
+const playerRouter = require('./routers/players.js');
+const usersRouter = require('./routers/users.js');
+const teamRouter = require('./routers/teams.js');
 
 app.use('/players', playerRouter);
 app.use('/users', usersRouter);
