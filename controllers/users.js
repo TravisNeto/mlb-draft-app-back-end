@@ -3,15 +3,17 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user.js');
 
 const registerUser = async (req, res) => {
-  const { username, email, password } = req.body;
-
+  const { username, password } = req.body;
+console.log('registeruser')
   try {
-    const hashedPassword = bcrypt.hash(password);
-
-    const newUser = new User({ username, email, password: hashedPassword });
-    await newUser.save();
-
+    const hashedPassword = bcrypt.hashSync(password);
+console.log('hashedpassword', hashedPassword)
+    const newUser = await User.create({ username, password: hashedPassword });
+    console.log('newuser', newUser)
+    // await newUser.save();
+console.log('savenewuser')
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+console.log('token', token)
     res.status(201).json({ token });
   } catch (err) {
     res.status(500).json({ error: 'Registration failed', details: err });
