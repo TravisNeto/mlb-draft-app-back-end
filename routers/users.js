@@ -5,7 +5,7 @@ const auth = require('../middleware/verify-token.js');
 
 router.post('/register', registerUser);
 
-router.post('/login', loginUser);
+router.post('/signin', loginUser);
 
 router.get('/user', auth, getUserDetails);
 
