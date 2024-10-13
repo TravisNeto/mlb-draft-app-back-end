@@ -1,12 +1,15 @@
+const player = require('../models/player.js');
 const Team = require('../models/team.js');
 const User = require('../models/user.js');
 
 const createTeam = async (req, res) => {
-  const { name } = req.body;
-  const ownerId = req.user._id;
-
+  const name = req.body.name;
+  const ownerId = req.user.id;
+console.log('name', name)
+console.log('owner', ownerId)
+console.log('user', req.user)
   try {
-    const newTeam = new Team({ name, owner: ownerId });
+    const newTeam = new Team({ teamName: name, owner: ownerId });
     await newTeam.save();
 
     // Assign team to the user
@@ -30,13 +33,17 @@ const getTeam = async (req, res) => {
 
 const addPlayerToTeam = async (req, res) => {
   const { playerId } = req.body;
-
+  console.log('add to team')
   try {
     const team = await Team.findOne({ owner: req.user.id });
+    console.log('team', team)
     if (!team) return res.status(404).json({ message: 'Team not found' });
-
+    console.log('here')
+    // Find a player by name to return a player object  (id)
+    const thePlayer = await player.find({ name: req.body.playerId })
+    console.log('player', thePlayer)
     // Add a player to the team
-    team.players.push(playerId);
+    team.players.push(thePlayer._id);
     await team.save();
 
     res.status(200).json(team);

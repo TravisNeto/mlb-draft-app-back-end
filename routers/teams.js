@@ -3,10 +3,10 @@ const router = express.Router()
 const { createTeam, getTeam, addPlayerToTeam } = require('../controllers/teams.js');
 const auth = require('../middleware/verify-token.js');
 
-router.post('/team', auth, createTeam);
+router.post('/', auth, createTeam);
 
-router.get('/team', auth, getTeam);
+router.get('/', auth, getTeam);
 
-router.post('/team/draft', auth, addPlayerToTeam);
+router.post('/draft', auth, addPlayerToTeam);
 
 module.exports = router;

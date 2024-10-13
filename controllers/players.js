@@ -1,12 +1,29 @@
 const Player = require('../models/player.js');
 
+// I need to pull players from API to then add to the created team
+
 const fetchmlbApi = async (req, res) => {
     const response = await fetch(
       process.env.MLB_API
     );
     const data = await response.json();
+    console.log('oompa', data)
     res.status(200).json(data.people)
   }
+
+const seedPlayers = async (req, res) => {
+  const response = await fetch(
+    process.env.MLB_API
+  ); 
+  const data = await response.json();
+  console.log(data)
+// loop through the people data
+// inside loop, look into players model by mlbId
+// if we dont find player, add them to the players database
+const MlbPlayer = await data.find({ name: req.body.people })
+  res.status(200).json(data.people)
+}
+
 
 const createPlayer = async (req, res) => {
   const { name, position, stats } = req.body;
