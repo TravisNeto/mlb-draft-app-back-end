@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user.js');
+const Team = require('../models/team.js')
 
 const registerUser = async (req, res) => {
   const { username, password, email } = req.body;
@@ -9,6 +10,9 @@ console.log('registeruser')
     const hashedPassword = bcrypt.hashSync(password);
 console.log('hashedpassword', hashedPassword)
     const newUser = await User.create({ username, password: hashedPassword, email });
+    const newTeam = await Team.create({ teamName: username + '\'s team', owner: newUser._id })
+    newUser.team = newTeam._id
+    await newUser.save()
     console.log('newuser', newUser)
     // await newUser.save();
 console.log('savenewuser')

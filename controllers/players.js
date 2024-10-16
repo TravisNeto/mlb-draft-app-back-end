@@ -17,9 +17,6 @@ const seedPlayers = async (req, res) => {
   ); 
   const data = await response.json();
   console.log(data)
-// loop through the people data
-// inside loop, look into players model by mlbId
-// if we dont find player, add them to the players database
 const MlbPlayer = await data.find({ name: req.body.people })
   res.status(200).json(data.people)
 }
